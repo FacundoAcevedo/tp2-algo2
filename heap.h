@@ -3,8 +3,10 @@
 
 #include <stdbool.h>  /* bool */
 #include <stddef.h>	  /* size_t */
+#include <stdlib.h>
+#include <stdio.h>
 
-/* Prototipo de función de comparación que se le pasa como parámetro a las
+/* Prototipo de funciÃ³n de comparaciÃ³n que se le pasa como parÃ¡metro a las
  * diversas funciones del heap.
  * Debe recibir dos punteros del tipo de dato utilizado en el heap, y
  * debe devolver:
@@ -12,7 +14,12 @@
  *       0      si  a == b
  *   mayor a 0  si  a > b
  */
-typedef int (*cmp_func_t) (const void *a, const void *b);
+
+typedef int (*cmp_func_t) (const void *, const void *);  
+
+
+/* Tipo utilizado para el heap. */
+typedef struct heap heap_t;
 
 
 /* Función de heapsort genérica. Esta función ordena mediante heap_sort
@@ -20,7 +27,7 @@ typedef int (*cmp_func_t) (const void *a, const void *b);
  * le pase una función de comparación. Modifica el arreglo "in-place".
  * Notar que esta función NO es formalmente parte del TAD Heap.
  */
-void heapsort(void *elementos[], size_t cant, cmp_func_t cmp);
+void heap_sort(void *elementos[], size_t cant, cmp_func_t cmp);
 
 /*
  * Implementación de un TAD cola de prioridad, usando un max-heap.
@@ -29,9 +36,7 @@ void heapsort(void *elementos[], size_t cant, cmp_func_t cmp);
  * prioridad. Si se desea un min-heap, alcanza con invertir la función de
  * comparación.
  */
-
-/* Tipo utilizado para el heap. */
-typedef struct heap_t heap_t;
+//~ void printeo(heap_t* heap);
 
 /* Crea un heap. Recibe como único parámetro la función de comparación a
  * utilizar. Devuelve un puntero al heap, el cual debe ser destruido con
@@ -47,7 +52,7 @@ bool heap_destruir(heap_t *heap, void destruir_elemento(void *e));
 
 /* Devuelve la cantidad de elementos que hay en el heap. */
 size_t heap_cantidad(const heap_t *heap);
-
+//~ size_t heap_tamanio(const heap_t* heap);
 /* Devuelve true si la cantidad de elementos que hay en el heap es 0, false en
  * caso contrario. */
 bool heap_esta_vacio(const heap_t *heap);
