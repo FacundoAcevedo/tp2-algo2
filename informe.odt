@@ -1,0 +1,48 @@
+El programa principal se basa en un lector de comandos desde el teclado.
+Hay dos áreas principales de trabajo:
+1) Manejo de clientes (ingreso, modificacion, borrado, obtencion de datos)
+2) Manejo de pedidos (ingreso y obtención de ingresados), que se subdivide
+en:
+	A) Asignacion a sucursal
+	B) Ordenamiento en la cola de prioridad
+
+
+1) Manejo de clientes
+El dato "cliente" es un struct con 3 atributos: int x, int y, int sucursal. 
+La base de datos que almacena a los clientes esta implementada en un hash, 
+donde los nodos contienen como valor el dato tipo "cliente" y como clave, 
+la cadena con el telefono del cliente.
+Para el ingreso, modificacion, borrado y obtencion de datos de los clientes
+se utilizan de forma casi directa las primitivas del hash.
+
+2) Manejo de pedidos
+
+El dato "pedido" es un struct con los atributos: sucursal, cantidad_pizzas
+y urgencia. 
+
+A) Asignacion a sucursal
+
+Al querer ingresar un pedido, se corrobora si el atributo "sucursal" del
+cliente que pide esta vacio o no. Si esta vacio, es porque nunca ha realizado un pedido
+antes, y se debe proceder a buscar la sucursal mas cercana con los datos
+x e y del cliente. Una vez hallada, se la asigna en el atributo "sucursal" 
+por si es necesario volver a tratar con este cliente. Asi, si en principio 
+el atributo no esta vacio, no es necesario realizar la busqueda.
+La busqueda se realiza con un QuadTree.
+
+B) Ordenamiento en la cola de prioridad
+Una vez que se tiene un pedido con su sucursal correspondiente, hay que
+almacenarlo en alguna estructura que indique la prioridad del mismo.
+Por eso los pedidos se almacenaran en un heap por cada sucursal.
+Suponiendo que el maximo de pizzas que se puede pedir es MAX, el atributo
+urgencia del pedido es un numero 0 o 1 que simboliza "normal" o "urgente" 
+respectivamente.
+La prioridad que tomará en cuenta el heap es:
+	- si urgencia == 0: prioridad = cantidad_pizzas
+	- si urgencia == 1: prioridad = cantidad_pizzas + MAX
+De esta forma, los pedidos urgentes tendrán prioridad superior a los normales
+siempre, y en segundo lugar, estaran ordenados en importancia por la cantidad
+de pizzas pedidas.
+
+La obtencion de los pedidos de una sucursal se realiza con el borrar
+del heap, que devuelve siempre el elemento de mayor prioridad.

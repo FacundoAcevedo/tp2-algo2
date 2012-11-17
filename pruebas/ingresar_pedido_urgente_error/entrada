@@ -1,0 +1,2 @@
+cliente_guardar "cliente 1" -1 8
+ingresar_pedido_urgente "no existe" 4

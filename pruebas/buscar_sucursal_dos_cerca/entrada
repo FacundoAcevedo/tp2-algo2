@@ -1,0 +1,2 @@
+cliente_guardar "cliente 1" 5 5
+buscar_sucursal "cliente 1"

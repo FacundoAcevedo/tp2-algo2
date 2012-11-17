@@ -1,0 +1,10 @@
+cliente_guardar "cliente 1" 2 10
+cliente_guardar "cliente 2" 3 11
+cliente_guardar "cliente 3" 4 12
+ingresar_pedido_urgente "cliente 1" 2
+ingresar_pedido "cliente 2" 5
+ingresar_pedido_urgente "cliente 3" 4
+obtener_pedidos "sucursal 1" 1
+obtener_pedidos "sucursal 1" 1
+obtener_pedidos "sucursal 1" 1
+obtener_pedidos "sucursal 1" 1

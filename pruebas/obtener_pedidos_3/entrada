@@ -1,0 +1,18 @@
+cliente_guardar "cliente 1" -20800 -18000
+cliente_guardar "cliente 2" -20800 -18100
+cliente_guardar "cliente 3" 9400 -30000
+cliente_guardar "cliente 4" 2980 -30000
+ingresar_pedido "cliente 1" 4
+ingresar_pedido_urgente "cliente 2" 1
+ingresar_pedido "cliente 3" 3
+ingresar_pedido_urgente "cliente 4" 5
+obtener_pedidos "sucursal 0" 10
+obtener_pedidos "sucursal 1" 10
+obtener_pedidos "sucursal 2" 10
+obtener_pedidos "sucursal 3" 10
+obtener_pedidos "sucursal 4" 10
+obtener_pedidos "sucursal 5" 10
+obtener_pedidos "sucursal 6" 10
+obtener_pedidos "sucursal 7" 10
+obtener_pedidos "sucursal 8" 10
+obtener_pedidos "sucursal 9" 10

@@ -1,0 +1,8 @@
+cliente_guardar "1" 1 1
+cliente_guardar "2" 2 2
+cliente_guardar "3" 3 3
+cliente_obtener "2"
+cliente_borrar "2"
+cliente_obtener "2"
+cliente_obtener "1"
+cliente_obtener "3"
