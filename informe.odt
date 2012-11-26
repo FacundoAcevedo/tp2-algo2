@@ -1,31 +1,46 @@
-El programa principal se basa en un lector de comandos desde el teclado.
 Hay dos áreas principales de trabajo:
 1) Manejo de clientes (ingreso, modificacion, borrado, obtencion de datos)
-2) Manejo de pedidos (ingreso y obtención de ingresados), que se subdivide
+2) Manejo de pedidos (ingreso y obtención de ingresados), que se deriva
 en:
-	A) Asignacion a sucursal
+	A) Asignacion a sucursal (busqueda de la sucursal mas cercana a partir
+	de las coordenadas del cliente)
 	B) Ordenamiento en la cola de prioridad
 
 
 1) Manejo de clientes
-El dato "cliente" es un struct con 3 atributos: int x, int y, int sucursal. 
+El dato "cliente" :
+struct cliente {
+	char* telefono;
+	int x, y;
+	sucursal_t* sucursal_cercana; // IDEA MIA, CONSULTAR
+};
+
 La base de datos que almacena a los clientes esta implementada en un hash, 
 donde los nodos contienen como valor el dato tipo "cliente" y como clave, 
 la cadena con el telefono del cliente.
 Para el ingreso, modificacion, borrado y obtencion de datos de los clientes
 se utilizan de forma casi directa las primitivas del hash.
 
+
+
+
 2) Manejo de pedidos
 
-El dato "pedido" es un struct con los atributos: sucursal, cantidad_pizzas
-y urgencia. 
+El dato "pedido":
+
+struct pedido{
+	sucursal_t* sucursal;
+	int cant_pizzas; // Numero entre 1 y MAX (maxima cantidad de pizzas permitida)
+	bool urgencia; // false: normal, true: urgente
+}
+
 
 A) Asignacion a sucursal
 
-Al querer ingresar un pedido, se corrobora si el atributo "sucursal" del
-cliente que pide esta vacio o no. Si esta vacio, es porque nunca ha realizado un pedido
+Al recibir un pedido, se corrobora si el atributo "sucursal_cercana" del cliente 
+que pide esta vacio o no. Si esta vacio, es porque nunca ha realizado un pedido
 antes, y se debe proceder a buscar la sucursal mas cercana con los datos
-x e y del cliente. Una vez hallada, se la asigna en el atributo "sucursal" 
+x e y del cliente. Una vez hallada, se la asigna en el atributo "sucursal_cercana" 
 por si es necesario volver a tratar con este cliente. Asi, si en principio 
 el atributo no esta vacio, no es necesario realizar la busqueda.
 La busqueda se realiza con un QuadTree.
@@ -34,15 +49,35 @@ B) Ordenamiento en la cola de prioridad
 Una vez que se tiene un pedido con su sucursal correspondiente, hay que
 almacenarlo en alguna estructura que indique la prioridad del mismo.
 Por eso los pedidos se almacenaran en un heap por cada sucursal.
+El dato tipo "sucursal":
+
+struct sucursal{
+	heap_t* cola;
+	char* nombre;
+	int x, y;
+};
+
+Nombre y coordenadas se obtienen del archivo base de datos surcursales.csv. 
+En cuanto al heap:
 Suponiendo que el maximo de pizzas que se puede pedir es MAX, el atributo
 urgencia del pedido es un numero 0 o 1 que simboliza "normal" o "urgente" 
 respectivamente.
 La prioridad que tomará en cuenta el heap es:
-	- si urgencia == 0: prioridad = cantidad_pizzas
-	- si urgencia == 1: prioridad = cantidad_pizzas + MAX
+	- si urgencia == false: prioridad = cte
+	- si urgencia == true: prioridad = cantidad_pizzas + MAX
 De esta forma, los pedidos urgentes tendrán prioridad superior a los normales
 siempre, y en segundo lugar, estaran ordenados en importancia por la cantidad
 de pizzas pedidas.
 
 La obtencion de los pedidos de una sucursal se realiza con el borrar
 del heap, que devuelve siempre el elemento de mayor prioridad.
+
+
+Ejecucion del programa
+La ejecucion del main comienza con abrir la base de datos de las sucursales,
+archivo ubicado en el mismo nivel que main.c
+Con la funcion leer_texto() se lee la entrada del usuario por teclado.
+La cadena recibida sera comparada con las cadenas de comandos del protocolo.
+Deberan coincidir los comandos y los formatos de los parametros. Si todo
+es correcto, se llama por cada comando a la funcion correspondiente
+con los parametros ingresados.

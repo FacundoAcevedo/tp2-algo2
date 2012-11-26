@@ -4,7 +4,9 @@
 #include "hash.h"
 
 struct cliente {
+	char* telefono;
 	int x, y;
+	sucursal_t* sucursal_cercana;
 };
 
 // Crea el hash clientes_db. db for database, BITCH
@@ -17,6 +19,7 @@ hash_t* clientes_db(hash_destruir_dato_t cliente_destruir){
 cliente_t* cliente_crear(int x, int y) {
 	cliente_t* cliente = malloc (sizeof (cliente_t));
 	if (!cliente) return NULL;
+	cliente->sucursal_cercana = NULL;
 	cliente->x = x;
 	cliente->y = y;
 	return cliente;
